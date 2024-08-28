@@ -1,6 +1,7 @@
 import {MongoClient} from 'mongodb'
 
-const url = 'mongodb://localhost:27017'; // Replace with your MongoDB URL
+
+const url = 'mongodb://127.0.0.1:27017/authentication'; // Replace with your MongoDB URL
 const dbName = 'mydatabase'; // Replace with your database name
 
 let db;
