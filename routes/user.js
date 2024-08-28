@@ -1,7 +1,7 @@
 import express from 'express'
 import bcrypt from 'bcrypt'
 const router = express.Router()
-import {User} from '../../User/models/User.js'
+import {User} from '../models/User.js'
  
 router.post('/signup', async (req, res) => {
     
