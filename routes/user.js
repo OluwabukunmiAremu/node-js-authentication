@@ -1,33 +1,34 @@
-import express from 'express'
-import bcrypt from 'bcrypt'
-const router = express.Router()
-import {User} from '../models/User.js'
- 
+import express from 'express';
+import bcrypt from 'bcrypt';
+import { User } from '../models/User.js';
+
+const router = express.Router();
+
 router.post('/signup', async (req, res) => {
-    
-    const { username, email, password } = req.body;
+     const { username, email, password } = req.body;
 
-   const user = User.findOne({email})
-   if (user) {
-        return res.json({message: 'user already existed'})
-   }
-     console.log({user})    
-       
-   const hashPassword =  bcrypt.hash(password, 10)
-   const newUser = new User({
-        username,
-        email,
-        password: hashPassword,
-   }) 
+     try {
+          const userEmailExists = await User.findOne({ email });
+          const userNameExists = await User.findOne({ username });
 
-   await newUser.save()
-   return res.json({message:'record registered'}) 
-   
+          if (userEmailExists || userNameExists) {
+               return res.status(400).json({ message: 'User already exists' });
+          }
 
-}  
-);
+          const hashedPassword = await bcrypt.hash(password, 10);
+          const newUser = new User({
+               username,
+               email,
+               password: hashedPassword,
+          });
 
+          await newUser.save();
 
+          return res.status(201).json({ message: 'User registered successfully' });
+     } catch (err) {
+          console.error(err);
+          return res.status(500).json({ message: 'Internal server error' });
+     }
+});
 
-
-export {router as UserRouter}
+export { router as UserRouter };
