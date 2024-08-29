@@ -24,7 +24,7 @@ const options = {
 (async () => {
   try {
     // Connect to MongoDB
-    await mongoose.connect('mongodb://127.0.0.1:27017/authentication', options);
+    await mongoose.connect('mongodb://127.0.0.1:27017/authentication');
     console.log('DB connection created successfully!');
 
     // Handle database events
